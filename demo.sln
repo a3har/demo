@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo", "demo\demo.csproj", "{895C5636-69F7-4809-B919-1853C7E2AB30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demo", "demo\demo.csproj", "{895C5636-69F7-4809-B919-1853C7E2AB30}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerPortal.DataAccess", "..\CareerPortal\CareerPortal.DataAccess\CareerPortal.DataAccess.csproj", "{5E38E01D-EC63-4958-8F71-1939D93FA726}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerPortal.Models", "..\CareerPortal\CareerPortal.Models\CareerPortal.Models.csproj", "{70C711D1-95FA-437C-97B4-BB9F04E12C5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{895C5636-69F7-4809-B919-1853C7E2AB30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{895C5636-69F7-4809-B919-1853C7E2AB30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{895C5636-69F7-4809-B919-1853C7E2AB30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E38E01D-EC63-4958-8F71-1939D93FA726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E38E01D-EC63-4958-8F71-1939D93FA726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E38E01D-EC63-4958-8F71-1939D93FA726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E38E01D-EC63-4958-8F71-1939D93FA726}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C711D1-95FA-437C-97B4-BB9F04E12C5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C711D1-95FA-437C-97B4-BB9F04E12C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C711D1-95FA-437C-97B4-BB9F04E12C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C711D1-95FA-437C-97B4-BB9F04E12C5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
