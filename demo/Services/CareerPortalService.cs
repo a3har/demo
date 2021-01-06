@@ -1,27 +1,23 @@
 ﻿using CareerPortal.DataAccess.Repository.IRepository;
 using CareerPortal.Models;
-using CareerPortal.Models.API;
-using CareerPortal.Models.API.DTO;
+using demo.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace demo.Controllers
+namespace demo.Services
 {
-    [ApiController]
-    [Route("api")]
-    public class APIController : ControllerBase
+    public class CareerPortalService : ICareerPortalService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public APIController(IUnitOfWork unitOfWork)
+        public CareerPortalService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        [HttpGet("Education/{id}")]
-        public async Task<IActionResult> GetEducation(int id)
+        public async Task<APIResponse<IEnumerable<Education>>> GetEducation(int id)
         {
             var objFromDb = _unitOfWork.Education.GetAll(c => c.UserId == id);
             APIResponse<IEnumerable<Education>> response = new APIResponse<IEnumerable<Education>>()
@@ -32,14 +28,11 @@ namespace demo.Controllers
             {
                 response.Success = false;
                 response.Message = "Educations not found for user " + id.ToString();
-                return NotFound(response);
             }
-            return Ok(response);
+            return response;
         }
 
-
-        [HttpGet("Experience/{id}")]
-        public async Task<IActionResult> GetExperience(int id)
+        public async Task<APIResponse<IEnumerable<Experience>>> GetExperience(int id)
         {
             var objFromDb = _unitOfWork.Experience.GetAll(c => c.UserId == id);
             APIResponse<IEnumerable<Experience>> response = new APIResponse<IEnumerable<Experience>>()
@@ -50,15 +43,14 @@ namespace demo.Controllers
             {
                 response.Success = false;
                 response.Message = "Experience not found for user " + id.ToString();
-                return NotFound(response);
+                return response;
             }
-            return Ok(response);
+            return response;
         }
 
-        [HttpPost("User")]
-        public async Task<IActionResult> GetUserInfo(GetUserDto getUserDto)
+        public async Task<APIResponse<User>> GetUser(string email)
         {
-            var objFromDb = _unitOfWork.User.GetFirstOrDefault(c => c.Email.Equals(getUserDto.Email.ToLower()));
+            var objFromDb = _unitOfWork.User.GetFirstOrDefault(c => c.Email.Equals(email.ToLower()));
             APIResponse<User> response = new APIResponse<User>()
             {
                 Data = objFromDb
@@ -67,52 +59,44 @@ namespace demo.Controllers
             {
                 response.Success = false;
                 response.Message = "User not found";
-                return NotFound(response);
+                return response;
             }
-            return Ok(response);
+            return response;
         }
 
-
-        [HttpPost("User/Register")]
-        public async Task<IActionResult> RegisterUser(User user)
+        public async Task<APIResponse<User>> RegisterUser(User user)
         {
-            APIResponse<User> response = new APIResponse<User>();
-            try {
-                if (ModelState.IsValid)
-                {
-                    var ObjFromDb = _unitOfWork.User.GetFirstOrDefault(i => i.Email == user.Email);
+            APIResponse<User> response = new APIResponse<User>()
+            {
+                Success = false
+            };
+            try
+            {
+                   var ObjFromDb = _unitOfWork.User.GetFirstOrDefault(i => i.Email == user.Email);
 
                     if (ObjFromDb == null)
                     {
                         _unitOfWork.User.Add(user);
                         _unitOfWork.Save();
 
-             
+                        response.Success = true;
                         response.Message = "User successfully added";
                         response.Data = _unitOfWork.User.GetFirstOrDefault(c => c.Email.ToLower().Equals(user.Email.ToLower()));
 
-                        return Ok(response);
+                        return response;
 
                     }
-                
+
                     response.Message = "Email ID already exists";
-                    response.Success = false;
-                    return BadRequest(response);
-                }
-            } 
-            
+                    return response;
+            }
+
 
             catch (Exception ex)
             {
                 response.Message = ex.Message;
-                response.Success = false;
-                return BadRequest(response);
+                return response;
             }
-            response.Message = "Something went wrong";
-            response.Success = false;
-            return BadRequest(response);
-
         }
-
     }
 }
