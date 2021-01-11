@@ -1,4 +1,5 @@
 ﻿using CareerPortal.Models;
+using CareerPortal.Models.API.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace demo.Services.IServices
         public Task<APIResponse<User>> RegisterUser(User user);
         public Task<APIResponse<IEnumerable<Experience>>> GetExperience(int id);
         public Task<APIResponse<IEnumerable<Education>>> GetEducation(int id);
+        public Task<APIResponse<string>> Login(string username, string password);
 
     }
 }

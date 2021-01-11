@@ -2,6 +2,8 @@
 using CareerPortal.Models;
 using CareerPortal.Models.API;
 using CareerPortal.Models.API.DTO;
+using demo.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,14 +13,17 @@ using System.Threading.Tasks;
 namespace demo.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api")]
     public class APIController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICareerPortalService _service;
 
-        public APIController(IUnitOfWork unitOfWork)
+        public APIController(IUnitOfWork unitOfWork,ICareerPortalService service)
         {
             _unitOfWork = unitOfWork;
+            _service = service;
         }
         [HttpGet("Education/{id}")]
         public async Task<IActionResult> GetEducation(int id)
@@ -151,6 +156,20 @@ namespace demo.Controllers
                 response.Success = false;
                 return BadRequest(response);
             }
+        }
+
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginDto request)
+        {
+            APIResponse<string> response = await _service.Login(
+                request.Email, request.Password
+            );
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
 
