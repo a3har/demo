@@ -114,5 +114,45 @@ namespace demo.Controllers
 
         }
 
+        [HttpPut("User/Update")]
+        public async Task<IActionResult> UpdateUser(PutUserDto putUserDto)
+        {
+            APIResponse<User> response = new APIResponse<User>();
+            try
+            {
+                  var ObjFromDb = _unitOfWork.User.GetFirstOrDefault(i => i.Email == putUserDto.Email);
+
+                    if (ObjFromDb == null)
+                    {
+                        response.Message = "Email ID does not exist";
+                        response.Success = false;
+                        return BadRequest(response);
+                    }
+
+                    ObjFromDb.PhoneNumber = putUserDto.PhoneNumber;
+                    ObjFromDb.Address = putUserDto.Address;
+                    ObjFromDb.DateOfBirth = putUserDto.DateOfBirth;
+                    ObjFromDb.Name = putUserDto.Name;
+                    
+                    
+                    _unitOfWork.User.Update(ObjFromDb);
+                    _unitOfWork.Save();
+                    response.Message = "User successfully updated";
+                    response.Data = _unitOfWork.User.GetFirstOrDefault(c => c.Email.ToLower().Equals(putUserDto.Email.ToLower()));
+
+                    return Ok(response);
+               
+            }
+
+
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Success = false;
+                return BadRequest(response);
+            }
+        }
+
+
     }
 }
