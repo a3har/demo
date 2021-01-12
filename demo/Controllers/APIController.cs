@@ -75,48 +75,6 @@ namespace demo.Controllers
             return Ok(response);
         }
 
-
-        [HttpPost("User/Register")]
-        public async Task<IActionResult> RegisterUser(User user)
-        {
-            APIResponse<User> response = new APIResponse<User>();
-            try {
-                if (ModelState.IsValid)
-                {
-                    var ObjFromDb = _unitOfWork.User.GetFirstOrDefault(i => i.Email == user.Email);
-
-                    if (ObjFromDb == null)
-                    {
-                        _unitOfWork.User.Add(user);
-                        _unitOfWork.Save();
-
-             
-                        response.Message = "User successfully added";
-                        response.Data = _unitOfWork.User.GetFirstOrDefault(c => c.Email.ToLower().Equals(user.Email.ToLower()));
-
-                        return Ok(response);
-
-                    }
-                
-                    response.Message = "Email ID already exists";
-                    response.Success = false;
-                    return BadRequest(response);
-                }
-            } 
-            
-
-            catch (Exception ex)
-            {
-                response.Message = ex.Message;
-                response.Success = false;
-                return BadRequest(response);
-            }
-            response.Message = "Something went wrong";
-            response.Success = false;
-            return BadRequest(response);
-
-        }
-
         [HttpPut("User/Update")]
         public async Task<IActionResult> UpdateUser(PutUserDto putUserDto)
         {
