@@ -1,6 +1,8 @@
 using BulkyBook.DataAccess.Repository;
 using CareerPortal.DataAccess.Data;
 using CareerPortal.DataAccess.Repository.IRepository;
+using demo.Services;
+using demo.Services.IServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +39,8 @@ namespace demo
                     Configuration.GetConnectionString("RDS")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
+            services.AddScoped<ICareerPortalService, CareerPortalService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

@@ -13,16 +13,15 @@ using System.Threading.Tasks;
 namespace demo.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api")]
     public class APIController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICareerPortalService _service;
 
-        public APIController(IUnitOfWork unitOfWork,ICareerPortalService service)
+        public APIController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _service = service;
         }
         [HttpGet("Education/{id}")]
         public async Task<IActionResult> GetEducation(int id)

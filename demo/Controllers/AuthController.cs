@@ -13,16 +13,16 @@ namespace demo.Controllers
     [Route("auth")]
     public class AuthController : ControllerBase
     {
-        private readonly ICareerPortalService _service;
+        private readonly IAuthService _authservice;
 
-        public AuthController(ICareerPortalService service)
+        public AuthController(IAuthService service)
         {
-            _service = service;
+            _authservice = service;
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto request)
         {
-            APIResponse<string> response = await _service.Login(
+            APIResponse<string> response = await _authservice.Login(
                 request.Email, request.Password
             );
             if (!response.Success)
