@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 namespace demo.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api")]
     public class APIController : ControllerBase
     {
@@ -159,18 +158,7 @@ namespace demo.Controllers
         }
 
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginDto request)
-        {
-            APIResponse<string> response = await _service.Login(
-                request.Email, request.Password
-            );
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
-        }
+        
 
 
     }
